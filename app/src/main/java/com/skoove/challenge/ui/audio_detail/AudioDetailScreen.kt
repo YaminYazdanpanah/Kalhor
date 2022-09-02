@@ -16,9 +16,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import com.skoove.challenge.R
 import com.skoove.challenge.base.ModelWrapper
 import com.skoove.challenge.component.AppTopBar
+import com.skoove.challenge.component.ComposableLifecycle
 import com.skoove.challenge.component.TopBarNavigationType
 import com.skoove.challenge.domain.audio.result.Audio
 import com.skoove.challenge.ui.MediaPlayerState
@@ -64,9 +66,24 @@ fun AudioDetailScreen(
         mutableStateOf(0)
     }
     LaunchedEffect(key1 = playingTime, key2 = isAudioPlaying) {
-        if (playingTime <= (duration - 1) && isAudioPlaying) {
-            delay(1000)
-            playingTime += 1
+        if (isAudioPlaying) {
+            if (playingTime <= (duration - 1)) {
+                delay(1000)
+                playingTime += 1
+            } else {
+                audioDetailViewModel.resetMediaPlayer()
+                playingTime = 0
+            }
+        }
+
+    }
+
+    // handle media player on different compose lifecycle states
+    ComposableLifecycle { _, event ->
+        if (event == Lifecycle.Event.ON_PAUSE) {
+            audioDetailViewModel.pauseMediaPlayer()
+        } else if (event == Lifecycle.Event.ON_DESTROY) {
+            audioDetailViewModel.releaseMediaPlayer()
         }
     }
 
@@ -108,7 +125,10 @@ fun AudioDetailScreen(
             ) {
                 Box(
                     modifier = Modifier
-                        .clickable {
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
+                        ) {
                             audio.audio?.let { url ->
                                 audioDetailViewModel.mediaPlayerClickHandler(
                                     url

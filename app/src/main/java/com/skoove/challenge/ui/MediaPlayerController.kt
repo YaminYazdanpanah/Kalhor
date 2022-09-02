@@ -25,7 +25,7 @@ abstract class MediaPlayerController : ViewModel() {
     fun mediaPlayerClickHandler(url: String) {
         when (mediaPlayerState.value) {
             MediaPlayerState.Started -> pauseMediaPlayer()
-            MediaPlayerState.Paused, MediaPlayerState.Initialized -> startMediaPlayer()
+            MediaPlayerState.Paused, MediaPlayerState.Initialized , MediaPlayerState.Finished -> startMediaPlayer()
             else -> {
                 initializeMediaPlayer(url)
             }
@@ -67,7 +67,7 @@ abstract class MediaPlayerController : ViewModel() {
      * Start media player
      *
      */
-    private fun startMediaPlayer() {
+    fun startMediaPlayer() {
         try {
             // on below line we are starting
             // our media player.
@@ -84,13 +84,28 @@ abstract class MediaPlayerController : ViewModel() {
      * Pause media player
      *
      */
-    private fun pauseMediaPlayer() {
+    fun pauseMediaPlayer() {
         // on below line we are pausing
         // our media player.
         if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
             _mediaPlayerState.update { MediaPlayerState.Paused }
         }
+    }
+
+    fun releaseMediaPlayer() {
+        // on below line we are stopping and releasing
+        // our media player.
+        mediaPlayer.stop()
+        mediaPlayer.release()
+        _mediaPlayerState.update { MediaPlayerState.None }
+
+    }
+
+    fun resetMediaPlayer(){
+        // on below line we are stopping and resetting
+        // our media player.
+        _mediaPlayerState.update { MediaPlayerState.Finished }
     }
 }
 
@@ -102,4 +117,5 @@ sealed class MediaPlayerState() {
     object Initialized : MediaPlayerState()
     object Started : MediaPlayerState()
     object Paused : MediaPlayerState()
+    object Finished : MediaPlayerState()
 }
