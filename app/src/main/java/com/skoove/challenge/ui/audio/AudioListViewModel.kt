@@ -67,4 +67,14 @@ class AudioListViewModel @Inject constructor(
         _audioListState.none()
     }
 
+    //Update Favorite State of audio item and non-favorite other items
+    fun updateAudioItemFavoriteState(audio: Audio, state: Boolean) {
+        audioItems = audioItems.apply {
+            this.forEach {
+                it.isFavorite = false
+            }
+            this[this.indexOf(audio)].isFavorite = state
+        }
+    }
+
 }

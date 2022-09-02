@@ -35,7 +35,7 @@ fun RatingStars(modifier: Modifier, rate: Int, maxRate: Int = 5) {
                 tint = yellow,
                 contentDescription = stringResource(id = R.string.contentDescription_audio_rating_start),
                 modifier = Modifier
-                    .size(16.dp)
+                    .size(24.dp)
                     .padding(horizontal = 1.dp)
             )
         }

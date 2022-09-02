@@ -100,7 +100,15 @@ fun AudioListScreen(
                 }
                 // show list of Audio items fetched
                 items(audioListViewModel.audioItems) { audio ->
-                    AudioItem(audio)
+                    // show Audio item
+                    AudioItem(audio,
+                        // handle on favorite clicked, make item favorite and all other items non-favorite
+                        onFavoriteClicked = { state ->
+                            audioListViewModel.updateAudioItemFavoriteState(
+                                audio,
+                                state
+                            )
+                        })
                 }
             }
         }

@@ -2,25 +2,21 @@ package com.skoove.challenge.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.skoove.challenge.R
 import com.skoove.challenge.domain.audio.result.Audio
 import com.skoove.challenge.ui.theme.appTypography
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
-import com.skoove.challenge.R
-import com.skoove.challenge.ui.theme.yellow
 
 /**
  * Audio item
@@ -28,7 +24,7 @@ import com.skoove.challenge.ui.theme.yellow
  * @param audio
  */
 @Composable
-fun AudioItem(audio: Audio) {
+fun AudioItem(audio: Audio, onFavoriteClicked: (newState: Boolean) -> Unit) {
 
     Column(
         modifier = Modifier
@@ -51,16 +47,19 @@ fun AudioItem(audio: Audio) {
                     .fillMaxWidth()
             )
             // show audio rating by stars
-            RatingStars(modifier = Modifier.padding(4.dp) , audio.rate)
+            RatingStars(modifier = Modifier.padding(8.dp), audio.rate)
         }
-        // title section
+        // title and favorite section
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.65f)
+                .align(Alignment.End)
+                .padding(horizontal = 8.dp)
                 .heightIn(64.dp),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // audio title
             Text(
                 modifier = Modifier
                     .wrapContentWidth(),
@@ -69,8 +68,9 @@ fun AudioItem(audio: Audio) {
                 text = audio.title.toString(),
                 color = MaterialTheme.colors.onSurface
             )
+            // audio favorite status element
+            FavoriteElement(state = audio.isFavorite, onFavoriteClicked = { onFavoriteClicked(it) })
         }
     }
-
 }
 

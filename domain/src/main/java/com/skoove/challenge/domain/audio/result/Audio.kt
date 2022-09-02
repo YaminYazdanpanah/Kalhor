@@ -20,4 +20,5 @@ data class Audio(
     val cover: String? = "cover",
     val totalDurationMs: Int = 0,
     val rate: Int = 0,
+    var isFavorite: Boolean = false,
 ) : Parcelable
