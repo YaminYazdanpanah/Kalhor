@@ -7,6 +7,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+/**
+ * Media player controller
+ *
+ * @constructor Create empty Media player controller
+ */
 abstract class MediaPlayerController : ViewModel() {
 
     // object of media player
@@ -18,14 +23,14 @@ abstract class MediaPlayerController : ViewModel() {
     val mediaPlayerState = _mediaPlayerState.asStateFlow()
 
     /**
-     * handle media player load/pause and play
+     * Media player click handler
      *
-     * @param url of audio to stream
+     * @param url
      */
     fun mediaPlayerClickHandler(url: String) {
         when (mediaPlayerState.value) {
             MediaPlayerState.Started -> pauseMediaPlayer()
-            MediaPlayerState.Paused, MediaPlayerState.Initialized , MediaPlayerState.Finished -> startMediaPlayer()
+            MediaPlayerState.Paused, MediaPlayerState.Initialized, MediaPlayerState.Finished -> startMediaPlayer()
             else -> {
                 initializeMediaPlayer(url)
             }
@@ -35,7 +40,7 @@ abstract class MediaPlayerController : ViewModel() {
     /**
      * Initialize media player
      *
-     * @param url of audio to stream
+     * @param url
      */
     fun initializeMediaPlayer(url: String) {
         try {
@@ -93,6 +98,11 @@ abstract class MediaPlayerController : ViewModel() {
         }
     }
 
+
+    /**
+     * Release media player
+     *
+     */
     fun releaseMediaPlayer() {
         // on below line we are stopping and releasing
         // our media player.
@@ -102,15 +112,38 @@ abstract class MediaPlayerController : ViewModel() {
 
     }
 
-    fun resetMediaPlayer(){
+    /**
+     * Reset media player
+     *
+     */
+    fun resetMediaPlayer() {
         // on below line we are stopping and resetting
         // our media player.
         _mediaPlayerState.update { MediaPlayerState.Finished }
     }
+
+    /**
+     * Seek media player
+     *
+     * @param newPosition
+     */
+    fun seekMediaPlayer(newPosition: Int) {
+//        if (mediaPlayer.isPlaying) {
+//            mediaPlayer.pause()
+//            _mediaPlayerState.update { MediaPlayerState.Paused }
+//            mediaPlayer.seekTo(newPosition)
+//            mediaPlayer.start()
+//            _mediaPlayerState.update { MediaPlayerState.Started }
+//        } else {
+            mediaPlayer.seekTo(newPosition)
+//        }
+    }
 }
 
 /**
- * Different states of Media Player
+ * Media player state
+ *
+ * @constructor Create empty Media player state
  */
 sealed class MediaPlayerState() {
     object None : MediaPlayerState()

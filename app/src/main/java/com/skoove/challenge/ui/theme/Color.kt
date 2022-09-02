@@ -17,7 +17,7 @@ val neutralLight0Dark10 = Color(0xffffffff)
 
 // Static Colors
 val primaryColor = Color(0xFFBEFA00)
-val secondaryColor = Color(0xFFBEFA00)
+val secondaryColor = Color(0xFFED266E)
 //val borderColor = Color(0x80CCCCCC)
 val yellow = Color(0xffFCC949)
 val red = Color(0xffEF6060)

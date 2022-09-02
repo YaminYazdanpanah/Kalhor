@@ -63,7 +63,7 @@ fun AudioDetailScreen(
     val duration by remember { mutableStateOf(audio.totalDurationMs / 1000) }
     // Audio playing Time
     var playingTime by remember {
-        mutableStateOf(0)
+        mutableStateOf(0f)
     }
     LaunchedEffect(key1 = playingTime, key2 = isAudioPlaying) {
         if (isAudioPlaying) {
@@ -72,7 +72,7 @@ fun AudioDetailScreen(
                 playingTime += 1
             } else {
                 audioDetailViewModel.resetMediaPlayer()
-                playingTime = 0
+                playingTime = 0f
             }
         }
 
@@ -120,6 +120,8 @@ fun AudioDetailScreen(
         ) {
 
             Column(
+                modifier = Modifier
+                    .padding(16.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -147,7 +149,6 @@ fun AudioDetailScreen(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .aspectRatio(1f)
-                            .padding(16.dp)
                             .fillMaxWidth()
                     )
                     //Media Player Controller Icons
@@ -170,8 +171,25 @@ fun AudioDetailScreen(
                         .wrapContentWidth(),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.appTypography.body1,
-                    text = "${playingTime.timeStampToDuration()} / ${duration.timeStampToDuration()}",
+                    text = "${
+                        playingTime.toInt().timeStampToDuration()
+                    } / ${duration.timeStampToDuration()}",
                     color = MaterialTheme.colors.onSurface
+                )
+
+                Slider(
+                    value = playingTime,
+                    onValueChange = { playingTime = it },
+                    valueRange = 0f..duration.toFloat(),
+                    onValueChangeFinished = {
+                        audioDetailViewModel.seekMediaPlayer((playingTime * 1000).toInt())
+                    },
+                    steps = 1000,
+                    colors = SliderDefaults.colors(
+                        thumbColor = MaterialTheme.colors.secondary,
+                        activeTickColor = MaterialTheme.colors.secondary,
+                        inactiveTickColor = MaterialTheme.colors.onError,
+                    )
                 )
 
             }
