@@ -73,7 +73,7 @@ fun AudioItem(audio: Audio, onFavoriteClicked: (newState: Boolean) -> Unit , onI
                 color = MaterialTheme.colors.onSurface
             )
             // audio favorite status element
-            FavoriteElement(state = audio.isFavorite, onFavoriteClicked = { onFavoriteClicked(it) })
+            FavoriteElement(modifier = Modifier , state = audio.isFavorite, onFavoriteClicked = { onFavoriteClicked(it) })
         }
     }
 }

@@ -128,15 +128,7 @@ abstract class MediaPlayerController : ViewModel() {
      * @param newPosition
      */
     fun seekMediaPlayer(newPosition: Int) {
-//        if (mediaPlayer.isPlaying) {
-//            mediaPlayer.pause()
-//            _mediaPlayerState.update { MediaPlayerState.Paused }
-//            mediaPlayer.seekTo(newPosition)
-//            mediaPlayer.start()
-//            _mediaPlayerState.update { MediaPlayerState.Started }
-//        } else {
-            mediaPlayer.seekTo(newPosition)
-//        }
+        mediaPlayer.seekTo(newPosition)
     }
 }
 

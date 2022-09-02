@@ -15,6 +15,7 @@ import androidx.navigation.navDeepLink
 import com.skoove.challenge.domain.audio.result.Audio
 import com.skoove.challenge.ui.Destinations.ALERT_LIST_ROUTE
 import com.skoove.challenge.ui.audio.AudioListScreen
+import com.skoove.challenge.ui.audio.AudioListViewModel
 import com.skoove.challenge.ui.audio_detail.AudioDetailScreen
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -65,11 +66,19 @@ fun MyNavGraph(
             )
 
         ) {
+            val audioListViewModel: AudioListViewModel? = navController
+                .previousBackStackEntry?.let {
+                    hiltViewModel(it)
+                }
+
             AudioDetailScreen(
                 audio = navController.previousBackStackEntry?.savedStateHandle?.get<Audio>(
                     "audio"
                 ) ?: Audio(),
-                navigateBack = actions.upPress,
+                returnToAlertListScreen = { audio, state ->
+                    audioListViewModel?.updateAudioItemFavoriteState(audio, state)
+                    navController.navigateUp()
+                },
                 audioDetailViewModel = hiltViewModel(),
             )
         }
@@ -86,10 +95,6 @@ class MainActions(navController: NavHostController) {
             set("audio", audio)
         }
         navController.navigate(Destinations.AUDIO_DETAIL_ROUTE)
-    }
-
-    val upPress: () -> Unit = {
-        navController.navigateUp()
     }
 
 }

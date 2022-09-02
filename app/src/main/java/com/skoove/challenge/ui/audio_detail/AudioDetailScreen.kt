@@ -1,6 +1,7 @@
 package com.skoove.challenge.ui.audio_detail
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,6 +22,7 @@ import com.skoove.challenge.R
 import com.skoove.challenge.base.ModelWrapper
 import com.skoove.challenge.component.AppTopBar
 import com.skoove.challenge.component.ComposableLifecycle
+import com.skoove.challenge.component.FavoriteElement
 import com.skoove.challenge.component.TopBarNavigationType
 import com.skoove.challenge.domain.audio.result.Audio
 import com.skoove.challenge.ui.MediaPlayerState
@@ -36,7 +38,7 @@ import kotlinx.coroutines.delay
 fun AudioDetailScreen(
     audio: Audio,
     audioDetailViewModel: AudioDetailViewModel,
-    navigateBack: () -> Unit,
+    returnToAlertListScreen: (audio: Audio, state: Boolean) -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
 
@@ -87,6 +89,16 @@ fun AudioDetailScreen(
         }
     }
 
+    //handle is Favorite status of audio item
+    var isFavorite by remember {
+        mutableStateOf(audio.isFavorite)
+    }
+
+    // handle back button of phone
+    BackHandler {
+        returnToAlertListScreen(audio, isFavorite)
+    }
+
     Scaffold(
         scaffoldState = scaffoldState,
         // top app bar content section, here showing sync with server and logout part
@@ -95,7 +107,7 @@ fun AudioDetailScreen(
                 navigationType = TopBarNavigationType.BACK,
                 title = audio.title,
                 onNavigationClick = {
-                    navigateBack()
+                    returnToAlertListScreen(audio, isFavorite)
                 },
 
                 )
@@ -161,6 +173,16 @@ fun AudioDetailScreen(
                             .size(120.dp)
 
                     )
+
+                    // audio favorite status element
+                    FavoriteElement(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(16.dp),
+                        state = isFavorite,
+                        onFavoriteClicked = {
+                            isFavorite = !isFavorite
+                        })
                 }
 
                 Spacer(modifier = Modifier.size(16.dp))
@@ -177,6 +199,7 @@ fun AudioDetailScreen(
                     color = MaterialTheme.colors.onSurface
                 )
 
+                //Audio Slider
                 Slider(
                     value = playingTime,
                     onValueChange = { playingTime = it },

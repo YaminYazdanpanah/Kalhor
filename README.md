@@ -62,7 +62,7 @@ This application adopted modularization strategies below:
 - [X] Current audio play time and duration
 - [X] Handle Media player on Pause and On Destroy
 - [X] Audio Slider
-- [ ] The interactive favorite element to set the song as a favorite
+- [X] The interactive favorite element to set the song as a favorite
 - [ ] The interactive rating element displayed as stars
 - [ ] Unit Test
 - [ ] Instrumentation Test

@@ -21,7 +21,11 @@ import com.skoove.challenge.ui.theme.red
  * @param onFavoriteClicked
  */
 @Composable
-fun FavoriteElement(state: Boolean, onFavoriteClicked: (newState: Boolean) -> Unit) {
+fun FavoriteElement(
+    modifier: Modifier,
+    state: Boolean,
+    onFavoriteClicked: (newState: Boolean) -> Unit
+) {
     Icon(
         painter = painterResource(
             id =
@@ -29,7 +33,7 @@ fun FavoriteElement(state: Boolean, onFavoriteClicked: (newState: Boolean) -> Un
         ),
         tint = red,
         contentDescription = stringResource(id = R.string.contentDescription_audio_is_favorite),
-        modifier = Modifier
+        modifier = modifier
             .size(32.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
