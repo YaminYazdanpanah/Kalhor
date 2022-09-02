@@ -2,6 +2,7 @@ package com.skoove.challenge.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -24,13 +25,16 @@ import com.skydoves.landscapist.coil.CoilImage
  * @param audio
  */
 @Composable
-fun AudioItem(audio: Audio, onFavoriteClicked: (newState: Boolean) -> Unit) {
+fun AudioItem(audio: Audio, onFavoriteClicked: (newState: Boolean) -> Unit , onItemClicked: () -> Unit) {
 
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .border(1.dp, MaterialTheme.colors.onBackground)
             .background(MaterialTheme.colors.surface)
+            .clickable{
+                onItemClicked()
+            }
     ) {
         Box() {
             // audio cover image

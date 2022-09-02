@@ -5,12 +5,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import com.skoove.challenge.domain.audio.result.Audio
 import com.skoove.challenge.ui.Destinations.ALERT_LIST_ROUTE
 import com.skoove.challenge.ui.audio.AudioListScreen
+import com.skoove.challenge.ui.audio.AudioListViewModel
+import com.skoove.challenge.ui.audio_detail.AudioDetailScreen
 import kotlinx.coroutines.InternalCoroutinesApi
 
 /**
@@ -20,6 +25,8 @@ const val deeplinkUri = "https://www.skoove.com"
 
 object Destinations {
     const val ALERT_LIST_ROUTE = "alert_list"
+    const val AUDIO_DETAIL_ROUTE = "audio_detail"
+
 }
 
 
@@ -44,6 +51,24 @@ fun MyNavGraph(
             ) {
             AudioListScreen(
                 audioListViewModel = hiltViewModel(),
+                navigateToDetail = actions.navigateToAudioDetail,
+            )
+        }
+        composable(
+            Destinations.AUDIO_DETAIL_ROUTE,
+            deepLinks = listOf(navDeepLink { uriPattern = "$deeplinkUri/audio" }),
+            arguments = listOf(
+                navArgument("audio") {
+                    nullable = true
+                    type = NavType.ParcelableType(Audio::class.java)
+                },
+            )
+
+        ) {
+            AudioDetailScreen(
+                audio = navController.previousBackStackEntry?.arguments?.getParcelable("audio")
+                    ?: Audio(),
+                audioDetailViewModel = hiltViewModel(),
             )
         }
     }
@@ -53,6 +78,11 @@ fun MyNavGraph(
  * Models the navigation actions in the app.
  */
 class MainActions(navController: NavHostController) {
+
+    val navigateToAudioDetail: (audio: Audio) -> Unit = { audio ->
+        navController.currentBackStackEntry?.arguments?.putParcelable("audio", audio)
+        navController.navigate(Destinations.AUDIO_DETAIL_ROUTE)
+    }
 
     val upPress: () -> Unit = {
         navController.navigateUp()

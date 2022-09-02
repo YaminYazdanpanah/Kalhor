@@ -19,6 +19,7 @@ import com.skoove.challenge.base.ModelWrapper
 import com.skoove.challenge.component.AppTopBar
 import com.skoove.challenge.component.AudioItem
 import com.skoove.challenge.component.TopBarNavigationType
+import com.skoove.challenge.domain.audio.result.Audio
 import com.skoove.challenge.ui.theme.red
 
 
@@ -32,6 +33,7 @@ import com.skoove.challenge.ui.theme.red
 fun AudioListScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     audioListViewModel: AudioListViewModel,
+    navigateToDetail: (audio: Audio) -> Unit
 ) {
 
     // Observe state of get audio list
@@ -101,14 +103,20 @@ fun AudioListScreen(
                 // show list of Audio items fetched
                 items(audioListViewModel.audioItems) { audio ->
                     // show Audio item
-                    AudioItem(audio,
+                    AudioItem(
+                        audio = audio,
                         // handle on favorite clicked, make item favorite and all other items non-favorite
                         onFavoriteClicked = { state ->
                             audioListViewModel.updateAudioItemFavoriteState(
                                 audio,
                                 state
                             )
-                        })
+                        },
+                        // open audio detail screen on audio item clicked
+                        onItemClicked = {
+                            navigateToDetail(audio)
+                        }
+                    )
                 }
             }
         }
