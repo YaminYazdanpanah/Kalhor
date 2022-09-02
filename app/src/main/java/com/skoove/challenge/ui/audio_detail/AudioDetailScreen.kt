@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.skoove.challenge.R
 import com.skoove.challenge.base.ModelWrapper
@@ -21,9 +22,12 @@ import com.skoove.challenge.component.AppTopBar
 import com.skoove.challenge.component.TopBarNavigationType
 import com.skoove.challenge.domain.audio.result.Audio
 import com.skoove.challenge.ui.MediaPlayerState
+import com.skoove.challenge.ui.theme.appTypography
 import com.skoove.challenge.ui.theme.red
+import com.skoove.challenge.utils.extension.timeStampToDuration
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
+import kotlinx.coroutines.delay
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -41,15 +45,28 @@ fun AudioDetailScreen(
 
     //Handle different states of media player controller
     val mediaPlayerState by audioDetailViewModel.mediaPlayerState.collectAsState()
-    var showPlayButton by remember {
+    var isAudioPlaying by remember {
         mutableStateOf(true)
     }
     LaunchedEffect(mediaPlayerState) {
         mediaPlayerState.let {
-            showPlayButton = when (it) {
-                MediaPlayerState.Started -> false
-                else -> true
+            isAudioPlaying = when (it) {
+                MediaPlayerState.Started -> true
+                else -> false
             }
+        }
+    }
+
+    // Audio duration time
+    val duration by remember { mutableStateOf(audio.totalDurationMs / 1000) }
+    // Audio playing Time
+    var playingTime by remember {
+        mutableStateOf(0)
+    }
+    LaunchedEffect(key1 = playingTime, key2 = isAudioPlaying) {
+        if (playingTime <= (duration - 1) && isAudioPlaying) {
+            delay(1000)
+            playingTime += 1
         }
     }
 
@@ -86,14 +103,19 @@ fun AudioDetailScreen(
         ) {
 
             Column(
-                modifier = Modifier
-                    .clickable {
-                        audio.audio?.let { url -> audioDetailViewModel.mediaPlayerClickHandler(url) }
-                    },
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Box(contentAlignment = Alignment.Center){
+                Box(
+                    modifier = Modifier
+                        .clickable {
+                            audio.audio?.let { url ->
+                                audioDetailViewModel.mediaPlayerClickHandler(
+                                    url
+                                )
+                            }
+                        }, contentAlignment = Alignment.Center
+                ) {
                     // Audio Cover
                     CoilImage(
                         imageModel = audio.cover,
@@ -111,7 +133,7 @@ fun AudioDetailScreen(
                     //Media Player Controller Icons
                     Image(
                         painter = painterResource(
-                            id = if (showPlayButton) R.drawable.ic_play else R.drawable.ic_pause
+                            id = if (isAudioPlaying) R.drawable.ic_pause else R.drawable.ic_play
                         ),
                         contentDescription = stringResource(id = R.string.contentDescription_audio_is_favorite),
                         modifier = Modifier
@@ -119,6 +141,19 @@ fun AudioDetailScreen(
 
                     )
                 }
+
+                Spacer(modifier = Modifier.size(16.dp))
+
+                //TIMER
+                Text(
+                    modifier = Modifier
+                        .wrapContentWidth(),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.appTypography.body1,
+                    text = "${playingTime.timeStampToDuration()} / ${duration.timeStampToDuration()}",
+                    color = MaterialTheme.colors.onSurface
+                )
+
             }
 
         }
