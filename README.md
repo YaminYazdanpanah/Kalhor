@@ -38,3 +38,35 @@ This application adopted modularization strategies below:
 - Mockito: Mock objects for unit testing
 - Retrofit2 & OkHttp3 : construct the REST APIs and network data.
 - Hilt: Dependency injector
+
+### TODO
+
+- [X] Git Initialize
+- [X] Readme Setup
+- [X] Kotlin-DSL
+- [X] Timber
+- [X] Navigation Component
+- [X] Dependency Injection Using Hilt
+- [X] Coroutine and Flow
+- [X] Retrofit Network Client
+- [X] Domain Layer Setup
+- [X] Data Layer Setup
+- [ ] Fetch the content of Manifest file
+- [ ] Show audio content on scrollable list
+- [ ] Reload list support
+- [ ] Non interactive rating element for each tile
+- [ ] Interactive element to set the song as a favorite for each tile
+- [ ] Open Detail Screen by clicking on tile
+- [ ] Media Player functionalities Setup (Load/Play/Pause)
+- [ ] Current audio play time and duration
+- [ ] Audio Slider
+- [ ] The interactive rating element displayed as stars
+- [ ] The interactive favorite element to set the song as a favorite
+- [ ] Dokka Documentation Tool
+- [ ] MAD Score
+- [ ] Leak Canary Test
+- [ ] Detekt Static Code Analyze
+- [ ] Unit Test
+- [ ] Instrumentation Test
+- [ ] UI Test
+- [ ] Release APK 
