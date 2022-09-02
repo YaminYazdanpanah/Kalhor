@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id "kotlin-parcelize"
+    id 'org.jetbrains.kotlin.plugin.serialization'
+}
+
+android {
+    compileSdk Config.COMPILE_SDK
+
+    defaultConfig {
+        minSdk Config.MIN_SDK
+        targetSdk Config.TARGET_SDK
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+    implementation Dependencies.HILT_ANDROID
+    kapt Dependencies.HILT_COMPILER
+    implementation Dependencies.KOTLIN_X_SERIALIZATION
+    implementation Dependencies.COROUTINE_CORE
+
+    testImplementation Dependencies.JUNIT
+    testImplementation Dependencies.MOCKK
+    testImplementation Dependencies.MOCKK_AGENT_JVM
+    testImplementation Dependencies.MOCK_WEBSERVER
+    testImplementation Dependencies.KOTLINX_COROUTINES_TEST
+    androidTestImplementation Dependencies.ANDROIDX_JUNIT
+    androidTestImplementation Dependencies.ESPRESSO
+    androidTestImplementation Dependencies.MOCKK_ANDROID
+    androidTestImplementation Dependencies.MOCK_WEBSERVER
+    androidTestImplementation Dependencies.KOTLINX_COROUTINES_TEST
+}
