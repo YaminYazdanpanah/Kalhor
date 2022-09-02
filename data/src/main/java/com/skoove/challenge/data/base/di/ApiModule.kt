@@ -1,6 +1,6 @@
 package com.skoove.challenge.data.base.di
 
-import com.skoove.challenge.data.sample.SampleApi
+import com.skoove.challenge.data.audio.AudioApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,14 +18,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class ApiModule {
 
+
     /**
-     * Provide sample
+     * Provide audio api
      *
      * @param retrofit
      * @return
      */
     @Provides
     @Singleton
-    fun provideSample(retrofit: Retrofit): SampleApi = retrofit.create(SampleApi::class.java)
+    fun provideAudioApi(retrofit: Retrofit): AudioApi = retrofit.create(AudioApi::class.java)
 
 }

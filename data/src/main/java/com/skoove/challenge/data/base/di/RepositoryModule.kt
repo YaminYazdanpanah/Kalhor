@@ -1,7 +1,7 @@
 package com.skoove.challenge.data.base.di
 
-import com.skoove.challenge.data.sample.SampleRepositoryImpl
-import com.skoove.challenge.domain.sample.SampleRepository
+import com.skoove.challenge.data.audio.AudioRepositoryImpl
+import com.skoove.challenge.domain.audio.AudioRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,12 +18,12 @@ import dagger.hilt.android.components.ViewModelComponent
 abstract class RepositoryModule {
 
     /**
-     * Bind sample repository
+     * Bind audio repository
      *
      * @param repository
      * @return
      */
     @Binds
-    abstract fun bindSampleRepository(repository: SampleRepositoryImpl): SampleRepository
+    abstract fun bindAudioRepository(repository: AudioRepositoryImpl): AudioRepository
 
 }

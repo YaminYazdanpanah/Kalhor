@@ -21,12 +21,12 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            buildConfigField "String", "CONNECTION_URL", '"https://sample.com/"'
+            buildConfigField "String", "CONNECTION_URL", '"https://raw.githubusercontent.com/Learnfield-GmbH/CodingChallenge/master/"'
         }
         release {
             debuggable false
             minifyEnabled true
-            buildConfigField "String", "CONNECTION_URL", '"https://sample.com/"'
+            buildConfigField "String", "CONNECTION_URL", '"https://raw.githubusercontent.com/Learnfield-GmbH/CodingChallenge/master/"'
         }
     }
     compileOptions {

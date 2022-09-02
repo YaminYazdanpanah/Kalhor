@@ -22,11 +22,11 @@ open class BaseRepositoryImpl {
     ): Result<T> {
         return try {
             val apiResponse = call.invoke()
-            if (apiResponse.status && apiResponse.data != null) {
+            if (apiResponse.data != null) {
                 doOnSuccess?.invoke()
                 Result.success(apiResponse.data)
             } else {
-                throw AppException(apiResponse.errors, info)
+                throw AppException(listOf("Error"), info)
             }
         } catch (e: Exception) {
             when (e) {

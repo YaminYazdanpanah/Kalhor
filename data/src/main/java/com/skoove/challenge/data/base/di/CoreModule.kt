@@ -1,17 +1,16 @@
 package com.skoove.challenge.data.base.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.skoove.challenge.data.BuildConfig
-import com.skoove.challenge.data.base.interceptor.InternetConnectionInterceptor
-import com.skoove.challenge.data.utils.extension.dataStore
+import com.skoove.challenge.data.base.utils.Const.AppJson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -42,6 +41,9 @@ class CoreModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.CONNECTION_URL)
+            .addConverterFactory(
+                AppJson.asConverterFactory("application/json".toMediaType())
+            )
             .build()
     }
 
@@ -57,7 +59,6 @@ class CoreModule {
         @ApplicationContext context: Context,
     ): OkHttpClient {
         val httpClient = OkHttpClient.Builder()
-            .addInterceptor(InternetConnectionInterceptor(context))
             .apply {
                 if (BuildConfig.BUILD_TYPE != "release") {
                     addInterceptor(HttpLoggingInterceptor().apply {
@@ -69,16 +70,6 @@ class CoreModule {
         return httpClient.build()
     }
 
-    /**
-     * Provide data store
-     *
-     * @param context
-     * @return
-     */
-    @Provides
-    @Singleton
-    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
-        context.dataStore
 
 
 }

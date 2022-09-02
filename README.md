@@ -51,7 +51,7 @@ This application adopted modularization strategies below:
 - [X] Retrofit Network Client
 - [X] Domain Layer Setup
 - [X] Data Layer Setup
-- [ ] Fetch the content of Manifest file
+- [X] Fetch the content of Manifest file
 - [ ] Show audio content on scrollable list
 - [ ] Reload list support
 - [ ] Non interactive rating element for each tile

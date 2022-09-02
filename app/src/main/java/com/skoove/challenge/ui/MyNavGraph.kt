@@ -9,8 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navDeepLink
-import com.skoove.challenge.ui.Destinations.SPLASH_ROUTE
-import com.skoove.challenge.ui.splash.SplashScreen
+import com.skoove.challenge.ui.Destinations.ALERT_LIST_ROUTE
+import com.skoove.challenge.ui.audio.AudioListScreen
 import kotlinx.coroutines.InternalCoroutinesApi
 
 /**
@@ -19,7 +19,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 const val deeplinkUri = "https://www.skoove.com"
 
 object Destinations {
-    const val SPLASH_ROUTE = "splash"
+    const val ALERT_LIST_ROUTE = "alert_list"
 }
 
 
@@ -28,7 +28,7 @@ object Destinations {
 @Composable
 fun MyNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = SPLASH_ROUTE,
+    startDestination: String = ALERT_LIST_ROUTE,
 ) {
 
     val actions = remember(navController) { MainActions(navController) }
@@ -38,12 +38,12 @@ fun MyNavGraph(
         startDestination = startDestination,
     ) {
         composable(
-            Destinations.SPLASH_ROUTE,
+            ALERT_LIST_ROUTE,
             deepLinks = listOf(navDeepLink { uriPattern = deeplinkUri }),
 
             ) {
-            SplashScreen(
-                splashViewModel = hiltViewModel(),
+            AudioListScreen(
+                audioListViewModel = hiltViewModel(),
             )
         }
     }
