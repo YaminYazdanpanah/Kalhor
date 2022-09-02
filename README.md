@@ -52,7 +52,7 @@ This application adopted modularization strategies below:
 - [X] Domain Layer Setup
 - [X] Data Layer Setup
 - [X] Fetch the content of Manifest file
-- [ ] Show audio content on scrollable list
+- [X] Show audio content on scrollable list
 - [ ] Reload list support
 - [ ] Non interactive rating element for each tile
 - [ ] Interactive element to set the song as a favorite for each tile
@@ -62,11 +62,11 @@ This application adopted modularization strategies below:
 - [ ] Audio Slider
 - [ ] The interactive rating element displayed as stars
 - [ ] The interactive favorite element to set the song as a favorite
+- [ ] Unit Test
+- [ ] Instrumentation Test
+- [ ] UI Test
 - [ ] Dokka Documentation Tool
 - [ ] MAD Score
 - [ ] Leak Canary Test
 - [ ] Detekt Static Code Analyze
-- [ ] Unit Test
-- [ ] Instrumentation Test
-- [ ] UI Test
 - [ ] Release APK 

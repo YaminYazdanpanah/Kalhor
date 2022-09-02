@@ -1,5 +1,10 @@
 package com.skoove.challenge.ui.audio
 
+import android.annotation.SuppressLint
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.neverEqualPolicy
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.skoove.challenge.base.ModelMutableStateFlow
@@ -7,6 +12,7 @@ import com.skoove.challenge.domain.audio.result.Audio
 import com.skoove.challenge.domain.audio.usecase.GetAudioListUseCase
 import com.skoove.challenge.utils.extension.failure
 import com.skoove.challenge.utils.extension.loading
+import com.skoove.challenge.utils.extension.none
 import com.skoove.challenge.utils.extension.success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,6 +25,7 @@ import javax.inject.Inject
  * @property getAudioListUseCase use case for getting list of audios
  * @constructor Create empty Audio list view model
  */
+@SuppressLint("MutableCollectionMutableState")
 @HiltViewModel
 class AudioListViewModel @Inject constructor(
     private val getAudioListUseCase: GetAudioListUseCase,
@@ -45,6 +52,19 @@ class AudioListViewModel @Inject constructor(
                 _audioListState.failure(it)
             }
         }
+    }
+
+    // Mutable List to show content on screen
+    var audioItems by mutableStateOf<MutableList<Audio>>(
+        mutableListOf(),
+        policy = neverEqualPolicy()
+    )
+
+    // Populate list of audio items
+    fun updateAudioItems(list: List<Audio>) {
+        audioItems.clear()
+        audioItems.addAll(list)
+        _audioListState.none()
     }
 
 }
