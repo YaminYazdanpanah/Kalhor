@@ -58,7 +58,7 @@ This application adopted modularization strategies below:
 - [X] Interactive element to set the song as a favorite for each tile
 - [X] Open Detail Screen by clicking on tile
 - [X] Displays the content of the selected element
-- [ ] Media Player functionalities Setup (Load/Play/Pause)
+- [X] Media Player functionalities Setup (Load/Play/Pause)
 - [ ] Current audio play time and duration
 - [ ] Audio Slider
 - [ ] The interactive rating element displayed as stars

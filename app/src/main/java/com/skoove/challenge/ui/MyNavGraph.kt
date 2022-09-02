@@ -69,6 +69,7 @@ fun MyNavGraph(
                 audio = navController.previousBackStackEntry?.savedStateHandle?.get<Audio>(
                     "audio"
                 ) ?: Audio(),
+                navigateBack = actions.upPress,
                 audioDetailViewModel = hiltViewModel(),
             )
         }
