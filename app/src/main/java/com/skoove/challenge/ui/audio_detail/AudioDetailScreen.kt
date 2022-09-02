@@ -98,7 +98,7 @@ fun AudioDetailScreen(
 
     // handle back button of phone
     BackHandler {
-        returnToAlertListScreen(audio, isFavorite , rate)
+        returnToAlertListScreen(audio, isFavorite, rate)
     }
 
     Scaffold(
@@ -109,7 +109,7 @@ fun AudioDetailScreen(
                 navigationType = TopBarNavigationType.BACK,
                 title = audio.title,
                 onNavigationClick = {
-                    returnToAlertListScreen(audio, isFavorite , rate)
+                    returnToAlertListScreen(audio, isFavorite, rate)
                 },
 
                 )
@@ -132,103 +132,25 @@ fun AudioDetailScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colors.surface)
         ) {
-
-            Column(
-                modifier = Modifier
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) {
-                            audio.audio?.let { url ->
-                                audioDetailViewModel.mediaPlayerClickHandler(
-                                    url
-                                )
-                            }
-                        }, contentAlignment = Alignment.Center
-                ) {
-                    // Audio Cover
-                    CoilImage(
-                        imageModel = audio.cover,
-                        contentDescription = null,
-                        shimmerParams = ShimmerParams(
-                            baseColor = MaterialTheme.colors.background,
-                            highlightColor = MaterialTheme.colors.surface
-                        ),
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .aspectRatio(1f)
-                            .fillMaxWidth()
-                    )
-                    //Media Player Controller Icons
-                    Image(
-                        painter = painterResource(
-                            id = if (isAudioPlaying) R.drawable.ic_pause else R.drawable.ic_play
-                        ),
-                        contentDescription = stringResource(id = R.string.contentDescription_audio_is_favorite),
-                        modifier = Modifier
-                            .size(120.dp)
-
-                    )
-
-                    // audio favorite status element
-                    FavoriteElement(
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(16.dp),
-                        state = isFavorite,
-                        onFavoriteClicked = {
-                            isFavorite = !isFavorite
-                        })
+            // audio detail item
+            AudioDetailItem(
+                audio = audio,
+                audioDetailViewModel = audioDetailViewModel,
+                isAudioPlaying = isAudioPlaying,
+                isFavorite = isFavorite,
+                playingTime = playingTime,
+                duration = duration,
+                rate = rate,
+                onStarClicked = { newRate ->
+                    rate = newRate
+                },
+                onSliderValueChanged = { value ->
+                    playingTime = value
+                },
+                onFavoriteClicked = { newState ->
+                    isFavorite = newState
                 }
-
-                Spacer(modifier = Modifier.size(32.dp))
-
-                //TIMER
-                Text(
-                    modifier = Modifier
-                        .wrapContentWidth(),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.appTypography.body1,
-                    text = "${
-                        playingTime.toInt().timeStampToDuration()
-                    } / ${duration.timeStampToDuration()}",
-                    color = MaterialTheme.colors.onSurface
-                )
-
-                //Audio Slider
-                Slider(
-                    value = playingTime,
-                    onValueChange = { playingTime = it },
-                    valueRange = 0f..duration.toFloat(),
-                    onValueChangeFinished = {
-                        audioDetailViewModel.seekMediaPlayer((playingTime * 1000).toInt())
-                    },
-                    steps = 1000,
-                    colors = SliderDefaults.colors(
-                        thumbColor = MaterialTheme.colors.secondary,
-                        activeTickColor = MaterialTheme.colors.secondary,
-                        inactiveTickColor = MaterialTheme.colors.onError,
-                    )
-                )
-                Spacer(modifier = Modifier.size(32.dp))
-
-                // show audio rating by stars
-                RatingStars(
-                    modifier = Modifier.padding(8.dp),
-                    rate = rate,
-                    starSize = 64,
-                    onStarClicked = { index ->
-                        rate = index + 1
-                    }
-                )
-
-            }
+            )
 
         }
     }
