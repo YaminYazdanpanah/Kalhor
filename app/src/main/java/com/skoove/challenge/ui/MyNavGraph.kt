@@ -75,8 +75,9 @@ fun MyNavGraph(
                 audio = navController.previousBackStackEntry?.savedStateHandle?.get<Audio>(
                     "audio"
                 ) ?: Audio(),
-                returnToAlertListScreen = { audio, state ->
+                returnToAlertListScreen = { audio, state , rate ->
                     audioListViewModel?.updateAudioItemFavoriteState(audio, state)
+                    audioListViewModel?.updateAudioItemRating(audio, rate)
                     navController.navigateUp()
                 },
                 audioDetailViewModel = hiltViewModel(),

@@ -77,4 +77,11 @@ class AudioListViewModel @Inject constructor(
         }
     }
 
+    //Update rate stars of item
+    fun updateAudioItemRating(audio: Audio, rate: Int) {
+        audioItems = audioItems.apply {
+            this[this.indexOf(audio)].rate = rate
+        }
+    }
+
 }

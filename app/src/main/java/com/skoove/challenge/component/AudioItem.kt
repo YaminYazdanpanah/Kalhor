@@ -51,7 +51,7 @@ fun AudioItem(audio: Audio, onFavoriteClicked: (newState: Boolean) -> Unit , onI
                     .fillMaxWidth()
             )
             // show audio rating by stars
-            RatingStars(modifier = Modifier.padding(8.dp), audio.rate)
+            RatingStars(modifier = Modifier.padding(8.dp), audio.rate , onStarClicked = {})
         }
         // title and favorite section
         Row(

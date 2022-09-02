@@ -20,10 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.skoove.challenge.R
 import com.skoove.challenge.base.ModelWrapper
-import com.skoove.challenge.component.AppTopBar
-import com.skoove.challenge.component.ComposableLifecycle
-import com.skoove.challenge.component.FavoriteElement
-import com.skoove.challenge.component.TopBarNavigationType
+import com.skoove.challenge.component.*
 import com.skoove.challenge.domain.audio.result.Audio
 import com.skoove.challenge.ui.MediaPlayerState
 import com.skoove.challenge.ui.theme.appTypography
@@ -38,7 +35,7 @@ import kotlinx.coroutines.delay
 fun AudioDetailScreen(
     audio: Audio,
     audioDetailViewModel: AudioDetailViewModel,
-    returnToAlertListScreen: (audio: Audio, state: Boolean) -> Unit,
+    returnToAlertListScreen: (audio: Audio, state: Boolean, rate: Int) -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
 
@@ -94,9 +91,14 @@ fun AudioDetailScreen(
         mutableStateOf(audio.isFavorite)
     }
 
+    //handle rate stars of audio item
+    var rate by remember {
+        mutableStateOf(audio.rate)
+    }
+
     // handle back button of phone
     BackHandler {
-        returnToAlertListScreen(audio, isFavorite)
+        returnToAlertListScreen(audio, isFavorite , rate)
     }
 
     Scaffold(
@@ -107,7 +109,7 @@ fun AudioDetailScreen(
                 navigationType = TopBarNavigationType.BACK,
                 title = audio.title,
                 onNavigationClick = {
-                    returnToAlertListScreen(audio, isFavorite)
+                    returnToAlertListScreen(audio, isFavorite , rate)
                 },
 
                 )
@@ -185,7 +187,7 @@ fun AudioDetailScreen(
                         })
                 }
 
-                Spacer(modifier = Modifier.size(16.dp))
+                Spacer(modifier = Modifier.size(32.dp))
 
                 //TIMER
                 Text(
@@ -213,6 +215,17 @@ fun AudioDetailScreen(
                         activeTickColor = MaterialTheme.colors.secondary,
                         inactiveTickColor = MaterialTheme.colors.onError,
                     )
+                )
+                Spacer(modifier = Modifier.size(32.dp))
+
+                // show audio rating by stars
+                RatingStars(
+                    modifier = Modifier.padding(8.dp),
+                    rate = rate,
+                    starSize = 64,
+                    onStarClicked = { index ->
+                        rate = index + 1
+                    }
                 )
 
             }

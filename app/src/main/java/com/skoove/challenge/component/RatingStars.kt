@@ -1,11 +1,15 @@
 package com.skoove.challenge.component
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -23,11 +27,15 @@ import com.skoove.challenge.ui.theme.yellow
  * @param maxRate
  */
 @Composable
-fun RatingStars(modifier: Modifier, rate: Int, maxRate: Int = 5) {
+fun RatingStars(
+    modifier: Modifier,
+    rate: Int,
+    maxRate: Int = 5,
+    starSize: Int = 24,
+    onStarClicked: (index: Int) -> Unit
+) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.Top,
-        horizontalArrangement = Arrangement.Start
     ) {
         repeat(maxRate) { index ->
             Icon(
@@ -35,8 +43,14 @@ fun RatingStars(modifier: Modifier, rate: Int, maxRate: Int = 5) {
                 tint = yellow,
                 contentDescription = stringResource(id = R.string.contentDescription_audio_rating_start),
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(starSize.dp)
                     .padding(horizontal = 1.dp)
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = rememberRipple(bounded = false),
+                    ) {
+                        onStarClicked(index)
+                    }
             )
         }
     }
