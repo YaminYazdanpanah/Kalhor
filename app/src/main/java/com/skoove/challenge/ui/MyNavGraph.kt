@@ -1,6 +1,7 @@
 package com.skoove.challenge.ui
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -14,7 +15,6 @@ import androidx.navigation.navDeepLink
 import com.skoove.challenge.domain.audio.result.Audio
 import com.skoove.challenge.ui.Destinations.ALERT_LIST_ROUTE
 import com.skoove.challenge.ui.audio.AudioListScreen
-import com.skoove.challenge.ui.audio.AudioListViewModel
 import com.skoove.challenge.ui.audio_detail.AudioDetailScreen
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -66,8 +66,9 @@ fun MyNavGraph(
 
         ) {
             AudioDetailScreen(
-                audio = navController.previousBackStackEntry?.arguments?.getParcelable("audio")
-                    ?: Audio(),
+                audio = navController.previousBackStackEntry?.savedStateHandle?.get<Audio>(
+                    "audio"
+                ) ?: Audio(),
                 audioDetailViewModel = hiltViewModel(),
             )
         }
@@ -80,7 +81,9 @@ fun MyNavGraph(
 class MainActions(navController: NavHostController) {
 
     val navigateToAudioDetail: (audio: Audio) -> Unit = { audio ->
-        navController.currentBackStackEntry?.arguments?.putParcelable("audio", audio)
+        navController.currentBackStackEntry?.savedStateHandle?.apply {
+            set("audio", audio)
+        }
         navController.navigate(Destinations.AUDIO_DETAIL_ROUTE)
     }
 
