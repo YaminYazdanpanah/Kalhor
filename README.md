@@ -39,7 +39,7 @@ This application adopted modularization strategies below:
 - Retrofit2 & OkHttp3 : construct the REST APIs and network data.
 - Hilt: Dependency injector
 
-### TODO
+### Task Board
 
 - [X] Git Initialize
 - [X] Readme Setup
@@ -53,7 +53,7 @@ This application adopted modularization strategies below:
 - [X] Data Layer Setup
 - [X] Fetch the content of Manifest file
 - [X] Show audio content on scrollable list
-- [ ] Reload list support
+- [X] Reload list support
 - [ ] Non interactive rating element for each tile
 - [ ] Interactive element to set the song as a favorite for each tile
 - [ ] Open Detail Screen by clicking on tile

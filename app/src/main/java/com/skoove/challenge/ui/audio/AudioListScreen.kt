@@ -12,6 +12,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.skoove.challenge.R
 import com.skoove.challenge.base.ModelWrapper
 import com.skoove.challenge.component.AppTopBar
@@ -76,28 +78,31 @@ fun AudioListScreen(
             }
         },
     ) {
-        //Scrollable column
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colors.surface)
-        ) {
-            // show Linear Progress Indicator when audio List state is in Loading state
-            item {
-                if (audioListState is ModelWrapper.Loading) {
-                    LinearProgressIndicator(
-                        modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colors.primary
-                    )
+        val swipeRefreshState = rememberSwipeRefreshState(false)
+        SwipeRefresh(state = swipeRefreshState, onRefresh = {
+            // on wipe refresh, read the audio content
+            audioListViewModel.getAudioList()
+        }) {
+            //Scrollable column
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colors.surface)
+            ) {
+                // show Linear Progress Indicator when audio List state is in Loading state
+                item {
+                    if (audioListState is ModelWrapper.Loading) {
+                        LinearProgressIndicator(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colors.primary
+                        )
+                    }
+                }
+                // show list of Audio items fetched
+                items(audioListViewModel.audioItems) { audio ->
+                    AudioItem(audio)
                 }
             }
-            // show list of Audio items fetched
-            items(audioListViewModel.audioItems) { audio ->
-                AudioItem(audio)
-            }
         }
-
-
     }
-
 }
