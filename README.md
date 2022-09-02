@@ -54,7 +54,7 @@ This application adopted modularization strategies below:
 - [X] Fetch the content of Manifest file
 - [X] Show audio content on scrollable list
 - [X] Reload list support
-- [ ] Non interactive rating element for each tile
+- [X] Non interactive rating element for each tile
 - [ ] Interactive element to set the song as a favorite for each tile
 - [ ] Open Detail Screen by clicking on tile
 - [ ] Media Player functionalities Setup (Load/Play/Pause)

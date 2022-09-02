@@ -19,4 +19,5 @@ data class Audio(
     val audio: String? = "url",
     val cover: String? = "cover",
     val totalDurationMs: Int = 0,
+    val rate: Int = 0,
 ) : Parcelable
