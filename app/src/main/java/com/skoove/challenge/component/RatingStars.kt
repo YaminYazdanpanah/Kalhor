@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -35,7 +36,9 @@ fun RatingStars(
     onStarClicked: (index: Int) -> Unit
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier
+            .testTag("RatingStars")
+        ,
     ) {
         repeat(maxRate) { index ->
             Icon(
@@ -44,6 +47,7 @@ fun RatingStars(
                 contentDescription = stringResource(id = R.string.contentDescription_audio_rating_start),
                 modifier = Modifier
                     .size(starSize.dp)
+                    .testTag("star")
                     .padding(horizontal = 1.dp)
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
