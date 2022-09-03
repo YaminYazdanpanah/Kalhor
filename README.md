@@ -35,7 +35,7 @@ This application adopted modularization strategies below:
 - Coil Landscapist: Image loading and caching
 - JUNIT: Unit testing
 - Timber: A logger with a small, extensible API.
-- Mockito: Mock objects for unit testing
+- MockK: Mock objects for unit testing
 - Retrofit2 & OkHttp3 : construct the REST APIs and network data.
 - Hilt: Dependency injector
 
@@ -64,9 +64,9 @@ This application adopted modularization strategies below:
 - [X] Audio Slider
 - [X] The interactive favorite element to set the song as a favorite
 - [X] The interactive rating element displayed as stars
-- [ ] Unit Test
-- [ ] Instrumentation Test
-- [ ] UI Test
+- [X] Unit Test
+- [X] Instrumentation Test
+- [X] UI Test
 - [ ] Dokka Documentation Tool
 - [ ] MAD Score
 - [ ] Leak Canary Test
