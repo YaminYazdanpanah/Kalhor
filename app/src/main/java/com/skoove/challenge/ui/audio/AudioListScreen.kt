@@ -42,6 +42,11 @@ fun AudioListScreen(
     // error message to show when cannot fetch data
     val errorMessage = stringResource(id = R.string.error)
 
+    //Get Audio list on page initialized
+    LaunchedEffect(Unit) {
+        audioListViewModel.getAudioList()
+    }
+
     // run suspend functions in the scope of a composable and handle states
     LaunchedEffect(audioListState) {
         (audioListState as? ModelWrapper.Success)?.let {

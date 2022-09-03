@@ -35,9 +35,6 @@ class AudioListViewModel @Inject constructor(
     private val _audioListState = ModelMutableStateFlow<List<Audio>>()
     val audioListState = _audioListState.asStateFlow()
 
-    init {
-        getAudioList()
-    }
 
     /**
      * Get audio list using getAudioListUseCase and fold function
