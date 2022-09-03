@@ -1,6 +1,6 @@
-# Skoove Code Challenge
+# Skoove
 
-Skoove Coding Challenge application that is able to load data from a server and playback the associated audio content using compose and Hilt based on modern Android tech-stacks and MVVM architecture.
+An Application that is able to load data from a server and playback the associated audio content using compose and Hilt based on modern Android tech-stacks and MVVM architecture.
 
 ### Architecture
 
