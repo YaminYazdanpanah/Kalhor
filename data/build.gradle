@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'org.jetbrains.kotlin.plugin.serialization'
+}
+
+android {
+    compileSdk Config.COMPILE_SDK
+
+    defaultConfig {
+        minSdk Config.MIN_SDK
+        targetSdk Config.TARGET_SDK
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            buildConfigField "String", "CONNECTION_URL", '"https://raw.githubusercontent.com/Learnfield-GmbH/CodingChallenge/master/"'
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            buildConfigField "String", "CONNECTION_URL", '"https://raw.githubusercontent.com/Learnfield-GmbH/CodingChallenge/master/"'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+    implementation Dependencies.ANDROIDX_CORE
+    implementation Dependencies.ANDROIDX_APPCOMPACT
+    implementation Dependencies.MATERIAL
+    implementation Dependencies.HILT_ANDROID
+    implementation Dependencies.HILT_ANDROID
+
+    kapt Dependencies.HILT_COMPILER
+    implementation Dependencies.SECURITY_CRYPTO
+    implementation Dependencies.RETROFIT
+    implementation Dependencies.RETROFIT_CONVERTER_SCALARS
+    implementation Dependencies.LOGGING_INTERCEPTOR
+    implementation Dependencies.COROUTINE_CORE
+    implementation Dependencies.COROUTINE_ANDROID
+    implementation Dependencies.KOTLIN_X_SERIALIZATION
+    implementation Dependencies.KOTLIN_SERIALIZATION_CONVERTOR
+    implementation Dependencies.DATA_STORE
+    implementation Dependencies.COIL
+    implementation Dependencies.COIL_KT
+    implementation Dependencies.COIL_SVG
+
+    testImplementation Dependencies.JUNIT
+    testImplementation Dependencies.MOCKK
+    testImplementation Dependencies.MOCKK_AGENT_JVM
+    testImplementation Dependencies.MOCK_WEBSERVER
+    testImplementation Dependencies.KOTLINX_COROUTINES_TEST
+    androidTestImplementation Dependencies.ANDROIDX_JUNIT
+    androidTestImplementation Dependencies.ESPRESSO
+    androidTestImplementation Dependencies.MOCKK_ANDROID
+    androidTestImplementation Dependencies.MOCK_WEBSERVER
+    androidTestImplementation Dependencies.KOTLINX_COROUTINES_TEST
+
+    api(project(":domain"))
+}

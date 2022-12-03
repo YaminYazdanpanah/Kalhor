@@ -1,0 +1,10 @@
+<resources>
+    <!-- General -->
+    <string name="app_name">Kalhor</string>
+    <string name="error">Error</string>
+    <string name="audio_list_screen_app_top_bar_title">Skoovin\'</string>
+    <string name="contentDescription_audio_cover">Audio Cover</string>
+    <string name="contentDescription_audio_rating_start">Audio Rating Star</string>
+    <string name="contentDescription_audio_is_favorite">Audio Favorite Status</string>
+
+</resources>

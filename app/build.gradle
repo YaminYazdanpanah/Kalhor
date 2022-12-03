@@ -1,0 +1,172 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "kotlin-kapt"
+    id "kotlin-parcelize"
+    id "dagger.hilt.android.plugin"
+    id 'org.jetbrains.kotlin.plugin.serialization'
+}
+
+android {
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def buildType = variant.baseName.split("-")[0]
+            outputFileName = "${Config.APP_NAME}-${buildType}-v${Config.VERSION_NAME}-c${Config.VERSION_CODE}.apk"
+        }
+    }
+
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging true
+            }
+        }
+    }
+
+    // Config
+    compileSdk Config.COMPILE_SDK
+    defaultConfig {
+        applicationId Config.APPLICATION_ID
+        minSdkVersion Config.MIN_SDK
+        versionCode Config.VERSION_CODE
+        versionName Config.VERSION_NAME
+        multiDexEnabled true
+        vectorDrawables {
+            useSupportLibrary true
+        }
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+    }
+
+    // Build
+    signingConfigs {
+        release {
+            storeFile file("release.jks")
+            storePassword "password"
+            keyAlias "release_key"
+            keyPassword "password"
+        }
+    }
+
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            matchingFallbacks = ["debug"]
+            applicationIdSuffix ".debug"
+            versionNameSuffix ".debug"
+            manifestPlaceholders = [appName: "Kalhor Debug"]
+            signingConfig signingConfigs.debug
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            matchingFallbacks = ["release"]
+            signingConfig signingConfigs.release
+            manifestPlaceholders = [appName: "Kalhor Code Challege"]
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
+        useIR = true
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Version.COMPOSE
+    }
+}
+
+dependencies {
+    implementation Dependencies.ANDROIDX_APPCOMPACT
+    implementation Dependencies.ANDROIDX_ACTIVITY
+    implementation Dependencies.HILT_ANDROID
+    implementation Dependencies.HILT_NAVIGATION
+    implementation Dependencies.SECURITY_CRYPTO
+    kapt Dependencies.HILT_COMPILER
+    implementation Dependencies.STARTUP
+    implementation Dependencies.COROUTINE_CORE
+    implementation Dependencies.COROUTINE_ANDROID
+    implementation Dependencies.LIFECYCLE_LIVEDATA
+    implementation Dependencies.LIFECYCLE_VIEWMODEL
+    implementation Dependencies.LIFECYCLE_SAVEDSTATE
+    implementation Dependencies.LIFECYCLE_VIEWMODEL_COMPOSE
+    implementation Dependencies.ACTIVITY_COMPOSE
+    implementation Dependencies.COMPOSE_RUNTIME
+    implementation Dependencies.COMPOSE_UI
+    implementation Dependencies.COMPOSE_FOUNDATION_LAYOUT
+    implementation Dependencies.COMPOSE_MATERIAL
+    implementation Dependencies.COMPOSE_MATERIAL_ICONS
+    implementation Dependencies.COMPOSE_FOUNDATION
+    implementation Dependencies.COMPOSE_ANIMATION
+    debugImplementation Dependencies.COMPOSE_UI_TOOLING
+    implementation Dependencies.COMPOSE_UI_TOOLING_PREVIEW
+    implementation Dependencies.COMPOSE_RUNTIME_LIVEDATA
+    implementation Dependencies.ACCOMPANIST_PAGER
+    implementation Dependencies.ACCOMPANIST_SWIPE_REFRESH
+    implementation Dependencies.ACCOMPANIST_INSETS
+    implementation Dependencies.ACCOMPANIST_SYSTEM_UI_CONTROLLER
+    implementation Dependencies.ACCOMPANIST_PERMISSIONS
+    implementation Dependencies.NAVIGATION_COMPOSE
+    implementation Dependencies.RETROFIT
+    implementation Dependencies.RETROFIT_CONVERTER_SCALARS
+    implementation Dependencies.LOGGING_INTERCEPTOR
+    implementation Dependencies.TIMBER
+    implementation Dependencies.LINGVER
+    implementation Dependencies.ACCOMPANIST_FLOW_LAYOUT
+    implementation Dependencies.COIL
+    implementation Dependencies.COIL_KT
+    implementation Dependencies.COIL_SVG
+    implementation Dependencies.SNAPPER
+    implementation Dependencies.KOTLIN_X_SERIALIZATION
+
+    testImplementation Dependencies.JUNIT
+    testImplementation Dependencies.MOCKK
+    testImplementation Dependencies.MOCKK_AGENT_JVM
+    testImplementation Dependencies.ROBOLECTRIC
+    testImplementation Dependencies.ANDROIDX_TEST_CORE
+    testImplementation Dependencies.ESPRESSO
+    testImplementation Dependencies.KOTLINX_COROUTINES_TEST
+    testImplementation Dependencies.COMPOSE_UI_JUNIT4
+    androidTestImplementation Dependencies.ANDROIDX_JUNIT
+    androidTestImplementation Dependencies.ESPRESSO
+    androidTestImplementation Dependencies.MOCKK_ANDROID
+    androidTestImplementation Dependencies.COMPOSE_UI_JUNIT4
+    debugImplementation Dependencies.COMPOSE_UI_TEST_MANIFEST
+
+    implementation(project(":data"))
+
+
+}
+
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        allWarningsAsErrors = project.hasProperty("warningsAsErrors") ? project.warningsAsErrors : false
+
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs += "-Xopt-in=kotlin.Experimental"
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs += "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi"
+        freeCompilerArgs += "-Xopt-in=androidx.compose.material.ExperimentalmaterialApi"
+        freeCompilerArgs += "-Xopt-in=com.google.accompanist.pager.ExperimentalPagerApi"
+        freeCompilerArgs += "-Xopt-in=dev.chrisbanes.snapper.ExperimentalSnapperApi"
+        freeCompilerArgs += "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi"
+        jvmTarget = "11"
+    }
+}
+
+tasks.withType(Test) {
+    systemProperty "robolectric.logging", "stdout"
+}

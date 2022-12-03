@@ -1,0 +1,4 @@
+/build
+# Gradle files in buildSrc
+/buildSrc/build/
+/buildSrc/.gradle/
